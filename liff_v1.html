@@ -13,56 +13,58 @@
 
     <script src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
     <script>
-        // 替换为你的 LIFF ID
-        const liffId = '1656384751-0e8D4wQj';
+        document.addEventListener('DOMContentLoaded', function () {
+            // 替换为你的 LIFF ID
+            const liffId ='1656384751-0e8D4wQj';
 
-        function main() {
-            liff.init(
-                data => {
-                    const userId = data.context.userId;
-                    if (!userId) {
-                        liff.login();
-                    } else {
-                        displayUserProfile();
-                        checkFriendship();
-                    }
-                },
-                err => {
-                    console.error('LIFF initialization failed', err);
-                    liff.login();
-                }
-            );
-        }
-
-        function displayUserProfile() {
-            liff.getProfile()
-                .then(profile => {
-                    document.getElementById('userId').textContent = `User ID: ${profile.userId}`;
-                    document.getElementById('displayName').textContent = `Display Name: ${profile.displayName}`;
-                })
-                .catch(err => {
-                    console.error('Error getting profile:', err);
-                    liff.login();
-                });
-        }
-
-        function checkFriendship() {
-            liff.getFriendship()
-                .then(friendship => {
-                    if (friendship.friendFlag) {
-                        document.getElementById('friendStatus').textContent = 'You are a friend!';
-                    } else {
-                        document.getElementById('friendStatus').textContent = 'You are not a friend. Please add us!';
+            function main() {
+                liff.init(
+                    data => {
+                        const userId = data.context.userId;
+                        if (!userId) {
+                            liff.login();
+                        } else {
+                            displayUserProfile();
+                            checkFriendship();
+                        }
+                    },
+                    err => {
+                        console.error('LIFF initialization failed', err);
                         liff.login();
                     }
-                })
-                .catch(err => {
-                    console.error('Error checking friendship:', err);
-                    liff.login();
-                });
-        }
+                );
+            }
 
-        main();
+            function displayUserProfile() {
+                liff.getProfile()
+                    .then(profile => {
+                        document.getElementById('userId').textContent = `User ID: ${profile.userId}`;
+                        document.getElementById('displayName').textContent = `Display Name: ${profile.displayName}`;
+                    })
+                    .catch(err => {
+                        console.error('Error getting profile:', err);
+                        liff.login();
+                    });
+            }
+
+            function checkFriendship() {
+                liff.getFriendship()
+                    .then(friendship => {
+                        if (friendship.friendFlag) {
+                            document.getElementById('friendStatus').textContent = 'You are a friend!';
+                        } else {
+                            document.getElementById('friendStatus').textContent = 'You are not a friend. Please add us!';
+                            liff.login();
+                        }
+                    })
+                    .catch(err => {
+                        console.error('Error checking friendship:', err);
+                        liff.login();
+                    });
+            }
+
+            main();
+        });
     </script>
 </body>
 </html>
