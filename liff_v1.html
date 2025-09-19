@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple LIFF App (v1)</title>
+</head>
+<body>
+    <h1>Welcome to My LIFF App (v1)</h1>
+    <p id="userId"></p>
+    <p id="displayName"></p>
+    <p id="friendStatus"></p>
+
+    <script src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
+    <script>
+        // 替换为你的 LIFF ID
+        const liffId = '1656384751-0e8D4wQj';
+
+        function main() {
+            liff.init(
+                data => {
+                    const userId = data.context.userId;
+                    if (!userId) {
+                        liff.login();
+                    } else {
+                        displayUserProfile();
+                        checkFriendship();
+                    }
+                },
+                err => {
+                    console.error('LIFF initialization failed', err);
+                    liff.login();
+                }
+            );
+        }
+
+        function displayUserProfile() {
+            liff.getProfile()
+                .then(profile => {
+                    document.getElementById('userId').textContent = `User ID: ${profile.userId}`;
+                    document.getElementById('displayName').textContent = `Display Name: ${profile.displayName}`;
+                })
+                .catch(err => {
+                    console.error('Error getting profile:', err);
+                    liff.login();
+                });
+        }
+
+        function checkFriendship() {
+            liff.getFriendship()
+                .then(friendship => {
+                    if (friendship.friendFlag) {
+                        document.getElementById('friendStatus').textContent = 'You are a friend!';
+                    } else {
+                        document.getElementById('friendStatus').textContent = 'You are not a friend. Please add us!';
+                        liff.login();
+                    }
+                })
+                .catch(err => {
+                    console.error('Error checking friendship:', err);
+                    liff.login();
+                });
+        }
+
+        main();
+    </script>
+</body>
+</html>
