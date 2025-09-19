@@ -9,6 +9,7 @@
     <h1>Welcome to My LIFF App</h1>
     <p id="userId"></p>
     <p id="displayName"></p>
+    <p id="friendStatus"></p>
 
     <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
     <script>
@@ -22,6 +23,7 @@
                 if (!liff.isLoggedIn()) {
                     liff.login();
                 } else {
+                    await checkFriendship();
                     await displayUserProfile();
                 }
             } catch (error) {
@@ -38,6 +40,24 @@
                 document.getElementById('displayName').textContent = `Display Name: ${profile.displayName}`;
             } catch (error) {
                 console.error('Error getting profile:', error);
+                liff.logout();
+                liff.login();
+            }
+        }
+
+        async function checkFriendship() {
+            try {
+                const friendship = await liff.getFriendship();
+                if (friendship.friendFlag) {
+                    document.getElementById('friendStatus').textContent = 'You are a friend!';
+                } else {
+                    document.getElementById('friendStatus').textContent = 'You are not a friend. Please add us!';
+                    // 这里可以选择引导用户添加好友，或者重新登录
+                    liff.logout();
+                    liff.login();
+                }
+            } catch (error) {
+                console.error('Error checking friendship:', error);
                 liff.logout();
                 liff.login();
             }
