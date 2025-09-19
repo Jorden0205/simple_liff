@@ -1,56 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html>
+  <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover, user-scalable=no">
     <title>分享 LINE 數位版名片</title>
-</head>
-<body>
+  </head>
+  <body>
     <script crossorigin="anonymous" src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
     <script>
-        (function() {
-            // 替换为你的 LIFF ID
-            const liffId = '1656384751-0e8D4wQj';
-
-            function initLiff() {
-                liff.init(
-                    data => {
-                        const userId = data.context.userId;
-                        if (!userId) {
-                            liff.login();
-                        } else {
-                            checkFriendship();
-                        }
-                    },
-                    err => {
-                        console.error('LIFF initialization failed', err);
-                        liff.login();
-                    }
-                );
-            }
-
-            function checkFriendship() {
-                liff.getFriendship()
-                    .then(friendship => {
-                        if (!friendship.friendFlag) {
-                            alert('You are not a friend. Please add us!');
-                            liff.login();
-                        } else {
-                            const redirect = new URL(location).searchParams.get('redirect');
-                            if (typeof redirect === 'string') {
-                                location.href = new URL(redirect, location).href;
-                            }
-                        }
-                    })
-                    .catch(err => {
-                        console.error('Error checking friendship:', err);
-                        liff.login();
-                    });
-            }
-
-            document.addEventListener('DOMContentLoaded', initLiff);
-        })();
+      (async () => {
+        await liff.init({ liffId: '1656384751-0e8D4wQj' })
+        const redirect = new URL(location).searchParams.get('redirect')
+        if (typeof redirect === 'string') location.href = new URL(redirect, location).href
+      })()
     </script>
-</body>
+  </body>
 </html>
