@@ -17,12 +17,18 @@
 
         async function main() {
             await liff.init({ liffId });
-            if (liff.isLoggedIn()) {
-                const profile = await liff.getProfile();
-                document.getElementById('userId').textContent = `User ID: ${profile.userId}`;
-                document.getElementById('displayName').textContent = `Display Name: ${profile.displayName}`;
-            } else {
+            if (!liff.isLoggedIn()) {
                 liff.login();
+            } else {
+                try {
+                    const profile = await liff.getProfile();
+                    document.getElementById('userId').textContent = `User ID: ${profile.userId}`;
+                    document.getElementById('displayName').textContent = `Display Name: ${profile.displayName}`;
+                } catch (error) {
+                    console.error('Error getting profile:', error);
+                    liff.logout();
+                    liff.login();
+                }
             }
         }
 
