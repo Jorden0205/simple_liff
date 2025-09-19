@@ -7,8 +7,6 @@
 </head>
 <body>
     <h1>Welcome to My LIFF App</h1>
-    <button id="btnLogin">Login with LINE</button>
-    <button id="btnLogout" style="display:none;">Logout</button>
     <p id="userId"></p>
     <p id="displayName"></p>
 
@@ -20,25 +18,13 @@
         async function main() {
             await liff.init({ liffId });
             if (liff.isLoggedIn()) {
-                document.getElementById('btnLogin').style.display = 'none';
-                document.getElementById('btnLogout').style.display = 'block';
                 const profile = await liff.getProfile();
                 document.getElementById('userId').textContent = `User ID: ${profile.userId}`;
                 document.getElementById('displayName').textContent = `Display Name: ${profile.displayName}`;
             } else {
-                document.getElementById('btnLogin').style.display = 'block';
-                document.getElementById('btnLogout').style.display = 'none';
+                liff.login();
             }
         }
-
-        document.getElementById('btnLogin').addEventListener('click', () => {
-            liff.login();
-        });
-
-        document.getElementById('btnLogout').addEventListener('click', () => {
-            liff.logout();
-            window.location.reload();
-        });
 
         main();
     </script>
