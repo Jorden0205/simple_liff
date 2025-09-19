@@ -2,29 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple LIFF App (v1)</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover, user-scalable=no">
+    <title>分享 LINE 數位版名片</title>
 </head>
 <body>
-    <h1>Welcome to My LIFF App (v1)</h1>
-    <p id="userId"></p>
-    <p id="displayName"></p>
-    <p id="friendStatus"></p>
-
     <script src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        (function() {
             // 替换为你的 LIFF ID
-            const liffId ='1656384751-0e8D4wQj';
+            const liffId = '1656384751-0e8D4wQj';
 
-            function main() {
+            function initLiff() {
                 liff.init(
                     data => {
                         const userId = data.context.userId;
                         if (!userId) {
                             liff.login();
                         } else {
-                            displayUserProfile();
                             checkFriendship();
                         }
                     },
@@ -35,26 +30,17 @@
                 );
             }
 
-            function displayUserProfile() {
-                liff.getProfile()
-                    .then(profile => {
-                        document.getElementById('userId').textContent = `User ID: ${profile.userId}`;
-                        document.getElementById('displayName').textContent = `Display Name: ${profile.displayName}`;
-                    })
-                    .catch(err => {
-                        console.error('Error getting profile:', err);
-                        liff.login();
-                    });
-            }
-
             function checkFriendship() {
                 liff.getFriendship()
                     .then(friendship => {
-                        if (friendship.friendFlag) {
-                            document.getElementById('friendStatus').textContent = 'You are a friend!';
-                        } else {
-                            document.getElementById('friendStatus').textContent = 'You are not a friend. Please add us!';
+                        if (!friendship.friendFlag) {
+                            alert('You are not a friend. Please add us!');
                             liff.login();
+                        } else {
+                            const redirect = new URL(location).searchParams.get('redirect');
+                            if (typeof redirect === 'string') {
+                                location.href = new URL(redirect, location).href;
+                            }
                         }
                     })
                     .catch(err => {
@@ -63,8 +49,8 @@
                     });
             }
 
-            main();
-        });
+            document.addEventListener('DOMContentLoaded', initLiff);
+        })();
     </script>
 </body>
 </html>
