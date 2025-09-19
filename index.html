@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple LIFF App</title>
+</head>
+<body>
+    <h1>Welcome to My LIFF App</h1>
+    <button id="btnLogin">Login with LINE</button>
+    <button id="btnLogout" style="display:none;">Logout</button>
+    <p id="userId"></p>
+    <p id="displayName"></p>
+
+    <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+    <script>
+        // 替换为你的 LIFF ID
+        const liffId = '1656384751-0e8D4wQj';
+
+        async function main() {
+            await liff.init({ liffId });
+            if (liff.isLoggedIn()) {
+                document.getElementById('btnLogin').style.display = 'none';
+                document.getElementById('btnLogout').style.display = 'block';
+                const profile = await liff.getProfile();
+                document.getElementById('userId').textContent = `User ID: ${profile.userId}`;
+                document.getElementById('displayName').textContent = `Display Name: ${profile.displayName}`;
+            } else {
+                document.getElementById('btnLogin').style.display = 'block';
+                document.getElementById('btnLogout').style.display = 'none';
+            }
+        }
+
+        document.getElementById('btnLogin').addEventListener('click', () => {
+            liff.login();
+        });
+
+        document.getElementById('btnLogout').addEventListener('click', () => {
+            liff.logout();
+            window.location.reload();
+        });
+
+        main();
+    </script>
+</body>
+</html>
