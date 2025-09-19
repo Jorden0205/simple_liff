@@ -16,19 +16,30 @@
         const liffId = '1656384751-0e8D4wQj';
 
         async function main() {
-            await liff.init({ liffId });
-            if (!liff.isLoggedIn()) {
-                liff.login();
-            } else {
-                try {
-                    const profile = await liff.getProfile();
-                    document.getElementById('userId').textContent = `User ID: ${profile.userId}`;
-                    document.getElementById('displayName').textContent = `Display Name: ${profile.displayName}`;
-                } catch (error) {
-                    console.error('Error getting profile:', error);
-                    liff.logout();
+            try {
+                await liff.init({ liffId });
+
+                if (!liff.isLoggedIn()) {
                     liff.login();
+                } else {
+                    await displayUserProfile();
                 }
+            } catch (error) {
+                console.error('Error during LIFF initialization:', error);
+                liff.logout();
+                liff.login();
+            }
+        }
+
+        async function displayUserProfile() {
+            try {
+                const profile = await liff.getProfile();
+                document.getElementById('userId').textContent = `User ID: ${profile.userId}`;
+                document.getElementById('displayName').textContent = `Display Name: ${profile.displayName}`;
+            } catch (error) {
+                console.error('Error getting profile:', error);
+                liff.logout();
+                liff.login();
             }
         }
 
