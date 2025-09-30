@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIFF v2 Example</title>
+    <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+</head>
+<body>
+    <h1>Hello</h1>
+    <p id="userId">Loading...</p>
+
+    <script>
+        // 初始化 LIFF 應用程式
+        async function main() {
+            // 替換成你的 LIFF ID
+            await liff.init({ liffId: "1656648143-dzxwrp6j" });
+
+            if (liff.isLoggedIn()) {
+                getUserProfile();
+            } else {
+                liff.login();
+            }
+        }
+
+        async function getUserProfile() {
+            const profile = await liff.getProfile();
+            document.getElementById('userId').textContent = `User ID: ${profile.userId}`;
+        }
+
+        main();
+    </script>
+</body>
+</html>
