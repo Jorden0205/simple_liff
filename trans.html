@@ -2,25 +2,25 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Source LIFF</title>
+    <title>Source LIFF (Auto Redirect)</title>
     <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
   </head>
   <body>
-    <h2>Source LIFF</h2>
-    <button id="btn">Open Destination LIFF</button>
+    <h3>Redirecting to destination LIFF...</h3>
 
     <script>
       liff.init({ liffId: "1656384751-wZpzQE2L" })
         .then(() => {
-          document.getElementById("btn").onclick = () => {
-            // 轉到另一個 LIFF
-            liff.openWindow({
-              url: "https://liff.line.me/1656384751-LRwMpDBx?from=source",
-              external: false
-            });
-          };
+          // 自動導向另一個 LIFF
+          liff.openWindow({
+            url: "https://liff.line.me/1656384751-wZpzQE2L?from=source",
+            external: false
+          });
         })
-        .catch(err => alert("Init failed: " + err));
+        .catch(err => {
+          document.body.innerHTML = "<p>Init failed: " + err + "</p>";
+          console.error(err);
+        });
     </script>
   </body>
 </html>
