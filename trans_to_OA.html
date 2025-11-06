@@ -26,12 +26,13 @@
             <p>Display Name: ${profile.displayName}</p>
           `;
 
-          // 延遲 2 秒再跳轉
+          // 延遲 2 秒再跳轉到外部連結
           setTimeout(() => {
-            liff.openWindow({
-              url: "https://line.me/R/oaMessage/@@904ojrm",
-              external: false
-            });
+            // 方式 1：同分頁導向
+            window.location.href = "https://line.me/R/oaMessage/@@904ojrm?userId=" + encodeURIComponent(profile.userId);
+
+            // 方式 2（選擇性）：新分頁開啟
+            // window.open("https://line.me/R/oaMessage/@@904ojrm?userId=" + encodeURIComponent(profile.userId), "_blank");
           }, 2000);
 
         } catch (err) {
