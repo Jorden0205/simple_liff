@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Source LIFF (Auto Redirect)</title>
+    <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+  </head>
+  <body>
+    <h3>Redirecting to destination LIFF...</h3>
+    <div id="user-info"></div>
+
+    <script>
+      async function main() {
+        try {
+          await liff.init({ liffId: "1656384751-wZpzQE2L" });
+
+          if (!liff.isLoggedIn()) {
+            liff.login();
+            return;
+          }
+
+          const profile = await liff.getProfile();
+          const userInfoDiv = document.getElementById("user-info");
+          userInfoDiv.innerHTML = `
+            <p>User ID: ${profile.userId}</p>
+            <p>Display Name: ${profile.displayName}</p>
+          `;
+
+          // 延遲 2 秒再跳轉
+          setTimeout(() => {
+            liff.openWindow({
+              url: "https://line.me/R/oaMessage/@@904ojrm",
+              external: false
+            });
+          }, 2000);
+
+        } catch (err) {
+          document.body.innerHTML = "<p>Init failed: " + err + "</p>";
+          console.error(err);
+        }
+      }
+
+      main();
+    </script>
+  </body>
+</html>
