@@ -12,10 +12,11 @@
       liff.init({ liffId: "2007829538-Dv7K1EYE" })
         .then(() => {
           // 自動導向另一個 LIFF
+          /*
           liff.openWindow({
             url: "https://liff.line.me/1656384751-LRwMpDBx?from=source",
             external: false
-          });
+          });*/
         })
         .catch(err => {
           document.body.innerHTML = "<p>Init failed: " + err + "</p>";
