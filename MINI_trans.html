@@ -9,23 +9,31 @@
     <h3>Redirecting to destination LIFF...</h3>
 
     <script>
-      liff.init({ liffId: "2007829538-Dv7K1EYE" })
-        .then(() => {
-          // 自動導向另一個 LIFF
-          /*
-          liff.openWindow({
-            //url: "https://liff.line.me/1656384751-LRwMpDBx?from=source",
-            //url: "https://miniapp.line.me/2008490177-8aVboXV7",
-            url: "https://developers.line.biz",
-            external: false
-          });*/
-          document.body.innerHTML = "<p>Init : OK</p>";
+      // 取得 URL 參數
+      const params = new URLSearchParams(window.location.search);
+      const liffId = params.get("liffId");
 
-        })
-        .catch(err => {
-          document.body.innerHTML = "<p>Init failed: " + err + "</p>";
-          console.error(err);
-        });
+      if (!liffId) {
+        document.body.innerHTML = "<p>Missing liffId parameter</p>";
+      } else {
+        liff.init({ liffId })
+          .then(() => {
+            // 這裡放你要做的事（redirect / openWindow）
+            document.body.innerHTML = "<p>Init OK : " + liffId + "</p>";
+
+            // 範例：自動導向另一個 LIFF（可選）
+            /*
+            liff.openWindow({
+              url: "https://liff.line.me/xxxx-yyyy",
+              external: false
+            });
+            */
+          })
+          .catch(err => {
+            document.body.innerHTML = "<p>Init failed: " + err + "</p>";
+            console.error(err);
+          });
+      }
     </script>
   </body>
 </html>
