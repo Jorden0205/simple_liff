@@ -2,7 +2,14 @@
 <html>
 <head>
   <script>
-    location.replace("https://jorden0205.github.io/simple_liff/MINI_trans.html");
+    // 取得目前網址的 query string（例如 ?a=1&b=2）
+    var params = window.location.search;
+
+    // 目標網址
+    var target = "https://jorden0205.github.io/simple_liff/MINI_trans.html";
+
+    // 自動跳轉，並把參數接過去
+    window.location.replace(target + params);
   </script>
 </head>
 <body>
