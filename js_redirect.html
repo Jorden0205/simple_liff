@@ -1,15 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="utf-8">
   <script>
-    // 取得目前網址的 query string（例如 ?a=1&b=2）
-    var params = window.location.search;
+    // 解析目前網址參數
+    const params = new URLSearchParams(window.location.search);
+
+    // 如果沒有 liffid，就補上
+    if (!params.has("liffid")) {
+      params.set("liffid", "2007829538-Dv7K1EYE"); // 👈 固定要帶的 LIFF ID
+    }
 
     // 目標網址
-    var target = "https://jorden0205.github.io/simple_liff/MINI_trans.html";
+    const target = "https://jorden0205.github.io/simple_liff/MINI_trans.html";
 
-    // 自動跳轉，並把參數接過去
-    window.location.replace(target + params);
+    // 自動跳轉
+    window.location.replace(target + "?" + params.toString());
   </script>
 </head>
 <body>
