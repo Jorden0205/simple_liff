@@ -11,10 +11,15 @@
     <script>
       (async () => {
         await liff.init({ liffId: '1656384751-0e8D4wQj' })
-        await liff.requestFriendship();
        // const redirect = new URL(location).searchParams.get('redirect')
         //if (typeof redirect === 'string') location.href = new URL(redirect, location).href
       })()
+
+              try {
+  await liff.requestFriendship();
+} catch (error) {
+  console.log(error);
+}
     </script>
   </body>
 </html>
