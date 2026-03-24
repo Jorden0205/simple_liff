@@ -23,6 +23,12 @@
             }
         }
 
+        try {
+  await liff.requestFriendship();
+} catch (error) {
+  console.log(error);
+}
+
         async function getUserProfile() {
             const profile = await liff.getProfile();
             document.getElementById('userId').textContent = `User ID: ${profile.userId}`;
